@@ -8,15 +8,14 @@ package Big_or_Small;
 public class Card {
 	String mark;//マーク
 	int card;//カード
+	int level;//カードの強さ
 
-	Card(){
-	}
-
-	Card(String mark, int card ){
-		this.mark=mark;
+	Card(String mark, int card , int level) {
+		this.mark = mark;
 		this.card = card;
+		this.level =level;
 	}
-	public String toString(){
-		return ( mark + card );
+	public String toString() {
+		return ( mark + card +level );
 	}
 }

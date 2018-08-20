@@ -9,46 +9,83 @@ package Big_or_Small;
 カードデッキは初期状態(52枚)に戻すことができる。*/
 
 
-public class Trump {
+class Trump {
 		Card cardnum[] = new Card[52];//代入するところ
-		int e=0;
+		String mark;
+		int card;
+		int level;
+		Card firstCard = new Card(mark,  card ,level);
+		Card secondCard= new Card(mark,  card ,level);;
 
 
-
-		public void drow(){
-			int level = new java.util.Random().nextInt(4);
-			int card = new java.util.Random().nextInt(13)+1;
-
-			String mark=("");
-			  if (level == 0 ){
-				mark = ("クローバー");
-				return;
-			} if (level == 1 ){
-				mark = ("ダイヤ");
-				return;
-			} if (level == 2 ){
-				mark = ("ハート");
-
-			} if (level == 3){
-				mark = ("スペード");
+	public void drow(){
+		int card = new java.util.Random().nextInt (13)+1;
+		int level = new java.util.Random().nextInt(4);
+			switch (level){
+				case 0:
+					mark = ("クローバー");
+					break;
+				case 1:
+					mark = ("ダイヤ");
+					break;
+				case 2:
+					mark = ("ハート");
+					break;
+				case 3:
+					mark = ("スペード");
+					break;
 			}
-			Card marks = new Card (mark,level);
-		}
-			/*Card trump = new Card (mark , card);
-			System.out.println(card);
 
-				for(int i=0; i<cardnum.length; i++){
+			Card firstCard = new Card(mark, card ,level);
+			System.out.println (this.mark + card);
+	}
+
+	public void drow2(){
+		int card = new java.util.Random().nextInt (13)+1;
+		int level = new java.util.Random().nextInt(4);
+			switch (level){
+				case 0:
+					mark = ("クローバー");
+					break;
+				case 1:
+					mark = ("ダイヤ");
+					break;
+				case 2:
+					mark = ("ハート");
+					break;
+				case 3:
+					mark = ("スペード");
+					break;
+			}
+
+			try{
+				Card secondCard = new Card(mark, card ,level);
+				System.out.println (this.mark + card);
+
+			if  (secondCard.mark.equals(firstCard.mark) &&
+				 secondCard.card == (firstCard.card) &&
+				 secondCard.level == (firstCard.level)){
+				throw new IllegalArgumentException();
+			}
+			}catch (IllegalArgumentException e) {
+				drow2();
+			}
+	}
+
+	public void check(){
+			for (int i = 0; i < cardnum.length; i++) {
 					if ( cardnum[i] != null ) {
-						if (trump.equals(cardnum[i])) {
-						drow();
-						break;
+						if  (firstCard.mark.equals(cardnum[i].mark) &&
+							 firstCard.card == (cardnum[i].card) &&
+							 firstCard.level == (cardnum[i].level)){
+							drow();
+							break;
+						} else {
+							cardnum[i] = firstCard;
+							i++;
+							break;
 						}
 					}
-				}
-				cardnum[e] = trump;
-				e++;
-		}*/
-		public void clear(){
-			cardnum[e]=(null);
-		}
+			}
+	}
 }
