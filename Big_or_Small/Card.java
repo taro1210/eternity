@@ -1,56 +1,74 @@
 package Big_or_Small;
 
-
-
 /*カードクラス
 4つのマーク（スペード、ハート、ダイヤ、クラブ）と数字（1〜13）の組み合わせで、計52種類ある。
 カード情報は、マークと数字の両方をセットで表示する（例：ハート10）。*/
+
+//Cardは一枚のカードとしての位置づけ
+
+
 public class Card {
+	private int num;
+	private int suit;
 
-	int draw;
-	int num ;
-
-	final int heart[] = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-	final int club[] = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-	final int spade[] = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-	final int diamond[] = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-
-	Card(int num, int draw){
+	public Card(int suit, int num) {
+		this.suit = suit;
 		this.num = num;
-		this.draw = draw;
+
+		// TODO 自動生成されたコンストラクター・スタブ
 	}
 
-	public Card() {
+	public void setSuit(int suit){
+		this.suit = suit;
 	}
 
-	/* (非 Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + draw;
-		result = prime * result + num;
-		return result;
+	public int getSuit() {
+		return suit;
 	}
 
-	/* (非 Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Card other = (Card) obj;
-		if (draw != other.draw)
-			return false;
-		if (num != other.num)
-			return false;
-		return true;
+	public void setNum(int num){
+		this.num = num;
 	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public static String getSuitName(int suit){
+		String suitName = null;
+		switch (suit){
+		case 0:
+			suitName = "クラブ";
+			break;
+		case 1:
+			suitName = "ダイヤ" ;
+			break;
+		case 2:
+			suitName = "ハート" ;
+			break;
+		case 3:
+			suitName = "スペード";
+			break;
+		}
+		return suitName;
+	}
+
+	/*public  Card cardNumber(int num, int draw) {
+		Card cardnumber = null;
+		switch (draw){
+		case 0:
+			cardnumber = ("クラブ" + club[num]);
+			break;
+		case 1:
+			cardnumber = ("ダイヤ" + diamond[num]);
+			break;
+		case 2:
+			cardnumber = ("ハート" + heart[num]);
+			break;
+		case 3:
+			cardnumber = ("スペード" + spade[num]);
+			break;
+		}
+		return cardnumber;
+	}*/
 }
