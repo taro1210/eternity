@@ -4,14 +4,15 @@ package Big_or_Small;
  mainメソッドを持つ。
 「BigOrSmall」クラスを使用して、「Big or Small」のゲームをスタートする。
  */
-public class Main {
 
+public class Main {
 
 	public static void main(String[]args) {
 
 		Chip chip = new Chip();  //Chipクラス生成
 		Trumps trump = new Trumps();  //Trumpクラス生成
 		BorS bos = new BorS();  //B_or_Sクラス生成
+		bos.chip = chip;
 
 		Card firstCard = null;  //場のカード
 		Card secondCard = null;  //プレイヤーのカード
@@ -23,25 +24,36 @@ public class Main {
 
 		 //スコアの表示
 		chip.dispScore();
+		//System.out.println("devag" + chip.score);
+		System.out.println();
 
 		 //一枚目のカード
 		System.out.print("場のカード：");
 		firstCard = trump.draw();
+		System.out.println();
 		System.out.println("************************************");
+		//System.out.println("devag" + chip.score);
 
 		 //BETする枚数
-		System.out.println("■BETするチップの枚数"); //チップをBET
+		System.out.println("■BETするチップの枚数");
 		System.out.println("（MIN:1 ～ MAX:20）");
-		bos.chipBET();
+		bos.chipBET();  //チップをBET
+		System.out.println();
 		System.out.println("************************************");
 
+
+		//newGameに"0"が代入されている間はループ。
 		String newGame = "0";
 		while(!"1".equals(newGame)) {
 			int count = 0;
 			count++;
 
 			//Big or Smallの選択
-			System.out.println("■Big(…0) or Small(…1) ？ ");
+			System.out.println("■Big or Small選択");
+			System.out.print("現在のカード: ");
+			String fCard = Card.getSuitName(firstCard.getSuit());
+			System.out.println(fCard + firstCard.getNum());
+			System.out.println("[Big or Small] Big…0  Small…1");
 			bos.bigsmall();
 			System.out.println("************************************");
 
@@ -53,49 +65,55 @@ public class Main {
 			System.out.println();
 			System.out.println ("*********** Big or Small ***********");
 
+			//場の表示
+			System.out.println("BET数" + bos.inputChip + "枚");
+			System.out.print("あなたの選択: ");
+			String sentaku = null;
+				if(bos.choose.equals("0")) {
+					sentaku = "Big";
+				}else if(bos.choose.equals("1")) {
+					sentaku = "Small";
+				}
+				System.out.println(sentaku);
 			System.out.print("場のカード: " );
-			String fCard = Card.getSuitName(firstCard.getSuit());
+			fCard = Card.getSuitName(firstCard.getSuit());
 			System.out.println(fCard + firstCard.getNum());
 			System.out.print("あなたの引いたカード: ");
 			String sCard = Card.getSuitName(secondCard.getSuit());
 			System.out.println(sCard + secondCard.getNum());
 
-			System.out.print ("あなたの選択: ");
-				if(bos.choose.equals("0")) {
-					System.out.println ("Big");
-				}else if(bos.choose.equals("1")) {
-					System.out.println ("Small");
-				}
-				System.out.println();
+			//正答をここでいわなければならない
+			//System.out.println(fCard + firstCard.getNum() + "は" + sCard + secondCard.getNum() + "より" + sentaku);
+			System.out.println("************************************");
 
 			//判定
-			boolean judge = bos.Game2(firstCard, secondCard);
-
-			//勝ちの場合のみ倍プッシュ
-			if(judge = true){
-				String winC = bos.winChoose();
-					if(winC.equals("0"))
-				firstCard = secondCard;
-				continue;
-			}
+			boolean judge = false;
+			judge = bos.Game2(firstCard, secondCard);
+			System.out.println();
+			System.out.println("************************************");
 
 			//引いたカードを新しい場カードに
 			firstCard = secondCard;
 
+			//勝ちの場合のみ倍プッシュ
+			if(judge == true) {
+				String winC = bos.winChoose();
+					if(winC.equals("0")) {
+						continue;
+					}
+			}
+
+			chip.dispScore();
 			//山札がいっぱいの時
 			if(count == trump.deck.length) {
-				System.out.println("山札にカードがありません。");
-				System.out.println("リセットして続けますか？ Yes(…0) / No(…1)");
-				newGame = trump.fullCard();
-				System.out.println("山札をリセットしました。");
+				String lostD = bos.lostDeck();
+				if(lostD.equals("1")){
+					break;
 				}
+			}
 
-			//新しい場カードを表示
-			System.out.print("新しい場のカード：");
-			fCard = Card.getSuitName(firstCard.getSuit());
-			System.out.println(fCard + firstCard.getNum());
+			//次のゲームの確認
 			newGame = bos.nextGame();
-			newGame = chip.checkScore();
 			}
 
 	bos.end(); //終了

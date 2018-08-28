@@ -34,7 +34,7 @@ public class Trumps {
 	        Card tmp = deck[dex];
 	        deck[dex] = deck[i];
 	        deck[i] = tmp;
-	    } //オブジェクト指向的に引数をわざわざ渡さずともdeckをshuffleしたらよい。
+	    }
 	}
 
 	public Card draw(){
@@ -44,24 +44,27 @@ public class Trumps {
 		return deck[index -1];
 	}
 
-	public String fullCard(){
+	public String lostCard() {
+		String fullCard;
 		try {
 			String fullGame = new java.util.Scanner(System.in).nextLine();
-				if (! fullGame.equals("0") || !fullGame.equals("1")){
+				if (fullGame.equals("0")){
+					fullCard = fullGame;
+				} else if(fullGame.equals("1")){
+					fullCard = fullGame;
+				} else {
 					throw  new 	InputMismatchException();
 				}
-				return fullGame;
-			} catch ( java.util.InputMismatchException e ) {
+				return fullCard;
+			} catch(java.util.InputMismatchException e) {
 				System.out.println ("半角数字「0」か「1」を入力して下さい。");
-				return fullCard();
+			return lostCard();
 			}
-		}
+	}
 
-		public void clearDeck(){
-			for (int i = 0; i<deck.length; i++){
+		public void clearDeck() {
+			for(int i = 0; i<deck.length; i++) {
 			deck[i] = null;
-			makeDeck();
-			shuffle();
 			}
 		}
 }
