@@ -14,10 +14,13 @@ public class Test2 {
 		long[] long4 = new long[] { 1000000000, 2, 3 };
 		System.out.println(long4);
 
-		char[] char5 = new char[]{ 'こ', 'そ', 'あ', 'ど' };
+		char[] char5 = new char[] { 'こ', 'そ', 'あ', 'ど' };
 		System.out.println(char5);
 
-		String[] string6 = new String[]{ "あれ", "これ", "それ", "どれ" };
+		String[] string6 = new String[] { "あれ", "これ", "それ", "どれ" };
 		System.out.println(string6);
+
+		boolean[] boolean7 = new boolean[] { true, false, false, true };
+		System.out.println(boolean7);
 	}
 }
