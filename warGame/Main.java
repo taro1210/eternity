@@ -16,15 +16,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		File saveDataFile = new File("c:\\CodeCamp\\savedata.csv"); // セーブデータをFile型変数に代入
-		String chackDataFile = ""; // セーブデータをFile型変数に代入
 		BufferedReader savedata = null;
-		boolean existingData = true;
+		boolean existingData = true;// 新規で始めるか続きで始めるかの判定
 		Card[] deck = new Card[26]; // deckの枚数
 		Card[] player = new Card[deck.length / 2]; // playerの手札
 		Card[] cpu = new Card[deck.length / 2]; // cpuの手札
-		int pleyerCount = 0; // playerの枚数カウンター
-		int cpuCount = 0; // cpuの枚数カウンター
-		int winCard = 0; // 自分の獲得したカード
+		int winCard = 0;  // 自分の獲得したカード
 		int drowCard = 0; // 場に積んであるカード
 		int loseCard = 0; // 相手の獲得したカード
 		int gameCount = 0; // 現在のゲーム回数
@@ -35,6 +32,8 @@ public class Main {
 		// 中断データの有無の確認
 		try {
 			if (saveDataFile.exists()) {
+				String chackDataFile = ""; //入力を格納する
+				
 				System.out.println("中断データが見つかりました。");
 				do {
 					System.out.println("[続きから始める:y  最初から始める:n]");
@@ -77,6 +76,9 @@ public class Main {
 			trp.shuffle();
 
 			// シャッフルした結果をお互いの手札へ
+			int pleyerCount = 0; // playerの枚数カウンター
+			int cpuCount = 0;    // cpuの枚数カウンター
+			
 			for (int i = 0; i < deck.length; i++) {
 				if (i % 2 == 0) {
 					player[pleyerCount] = deck[i];
