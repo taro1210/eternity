@@ -59,4 +59,18 @@ public class Trump {
 		}
 		return changeNum;
 	}
+	
+	public Card[] readDataInput(int x, int y, String readDataArray[]){
+		int j = 0;
+		Card[]card = new Card[13];
+		for (int i = x; i < y; i++) {
+			String suitA = readDataArray[i];
+			i++;
+			int numB = Integer.parseInt(readDataArray[i]);
+			Card cardA = new Card(suitA, numB);
+			card[j] = cardA;
+			j++;
+		}
+		return card;
+	}
 }
