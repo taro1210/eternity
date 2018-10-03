@@ -45,8 +45,8 @@ public class Trump {
 			deck[i] = tmp;
 		}
 	}
-	
-	public String cardNumChange(int num){
+
+	public String cardNumChange(int num) {
 		String changeNum = Integer.toString(num);
 		if (num == 11) {
 			changeNum = "J";
@@ -59,10 +59,10 @@ public class Trump {
 		}
 		return changeNum;
 	}
-	
-	public Card[] readDataInput(int x, int y, String readDataArray[]){
+
+	public Card[] readDataInput(int x, int y, String readDataArray[]) {
 		int j = 0;
-		Card[]card = new Card[13];
+		Card[] card = new Card[13];
 		for (int i = x; i < y; i++) {
 			String suitA = readDataArray[i];
 			i++;
@@ -72,5 +72,18 @@ public class Trump {
 			j++;
 		}
 		return card;
+	}
+
+	public Card[] distributesCard(int x, int handCard, Card[] inputdeck) {
+		int hdCount = 0;
+		Card[] handcard = new Card[handCard];
+		for (int i = 0; i < inputdeck.length; i++) {
+			if (i % 2 == x) {
+				handcard[hdCount] = inputdeck[i];
+				hdCount++;
+			}
+		}
+		return handcard;
+
 	}
 }
