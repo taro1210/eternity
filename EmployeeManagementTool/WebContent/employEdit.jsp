@@ -49,47 +49,37 @@
 	if(!(count.equals("0"))){
 	  EmployeeDAO dao = new EmployeeDAO();
 	  Employee emp = dao.findById(Integer.parseInt(count));
-
 	  // 各項目を代入
 	  empIdmsg = "value="+emp.getEmpId();
-
 	  // 名前は姓と名を分割し代入
 	  String[] name = emp.getEmpName().split("　");
 	  empFamillyNamemsg = "value="+name[0];
 	  empFirstNamemsg = "value="+name[1];
-
 	  //年齢
 	  empAgemsg = "value="+emp.getEmpAge();
-
 	  // 性別の自動チェック(nullならチェックされない)
 	  if(emp.getEmpGender().equals("男")){
 		  empGenderMalemsg = "checked = checked";
 	  }else if(emp.getEmpGender().equals("女")){
 		  empGenderFemalemsg = "checked= checked";
 	  }
-
 	  //郵便番号は「-」で分割して代入
 	  String[] zip = emp.getZip().split("-");
 	  zipFirstmsg = "value="+zip[0];
 	  zipSecondmsg = "value="+zip[1];
-
 	  //都道府県は中身取り出して代入しておく
 	  prefmsg = emp.getPref();
-
 	  //市区町名(nullなら半透明メッセージ)
 	  if(emp.getCity() != null){
 	  	citymsg = "value="+emp.getCity();
 	  }
-
 	  //部署IDも中身取り出して代入しておく
 	  dptIdmsg = emp.getDptId();
-
 	  //入社日は「-」分割して格納
 	  String[] entry = emp.getEntryDate().split("-");
 	  entryYearmsg = "value="+entry[0];
 	  entryMonthmsg = "value="+entry[1];
 	  entryDaymsg = "value="+entry[2];
-
 	  // 退職日はnullの可能性あり(本来は全部回すべきなんだろうけど…)
 	  if(emp.getResignDate() != null){
 		String[] resign = emp.getResignDate().split("-");
@@ -97,15 +87,14 @@
 		resignMonthmsg = "value="+resign[1];
 		resignDaymsg = "value="+resign[2];
 	  }
-
   	} %>
 
   	<% ArrayList<Department>Departments = new ArrayList<Department>();
 	 Departments = new DepartmentDAO().findAll(); %>
 <body>
 	<h2>社員情報追加・編集</h2>
-	<p>
 	<form action="./CommitEmployee" method="post">
+	<p>
 		社員ID：<input type="text" name="empId" size="15" <%= empIdmsg %>>
 	</p>
 	<p>

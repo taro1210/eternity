@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Employee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int 	id; 		// プライマリキー
+	private int 	id = 0; 	// プライマリキー
 	private String 	empId; 		// 社員ID
 	private String 	empName; 	// 社員名
 	private int 	empAge;  	// 年齢
@@ -17,6 +17,7 @@ public class Employee implements Serializable {
 	private String 	dptId; 		// 部署名
 	private String 	entryDate; 	// 入社日
 	private String 	resignDate; // 退社日
+
 
 	public int getId() {
 		return id;
