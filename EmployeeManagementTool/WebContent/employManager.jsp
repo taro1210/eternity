@@ -1,3 +1,4 @@
+<%-- 社員管理のページ。直にJSPに飛ばして良いのか？ --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@page import="java.util.ArrayList" %>
@@ -21,15 +22,19 @@
 			<th></th>
 			<th></th>
 		</tr>
+
+		<%-- 各行を送る際区別させるためのカウンター --%>
+		<% int count = 0; %>
 		<% for(Employee emp : employees){ %>
+		<% count++; %>
 		<tr>
 			<td><%=emp.getEmpId() %></td>
 			<td><%=emp.getEmpName() %></td>
 			<td><input type="button"
-				onclick="location.href='/EmployeeManagementTool/employEdit.jsp'"
+				onclick="location.href='/EmployeeManagementTool/employEdit.jsp?count=<%=count %>'"
 				value=" 編集 "></td>
 			<td><input type="button"
-				onclick="location.href='/EmployeeManagementTool/employDeleteCheck.jsp'"
+				onclick="location.href='/EmployeeManagementTool/employDeleteCheck.jsp?count=<%=count %>'"
 				value=" 削除 "></td>
 		</tr>
 		<% } %>
@@ -37,7 +42,7 @@
 	</table>
 	<br>
 	<input type="button"
-		onclick="location.href='/EmployeeManagementTool/employEdit.jsp'"
+		onclick="location.href='/EmployeeManagementTool/employEdit.jsp?count=<%="0" %>'"
 		value=" 新規追加 ">
 	<br>
 	<input type="button"

@@ -20,15 +20,17 @@ Departments = new DepartmentDAO().findAll(); %>
 			<th></th>
 			<th></th>
 		</tr>
+		<% int count = 0; %>
 		<% for(Department dpt : Departments){ %>
+		<% count++; %>
 		<tr>
 			<td><%=dpt.getDptId() %></td>
 			<td><%=dpt.getDptName() %></td>
 			<td><input type="button"
-				onclick="location.href='/EmployeeManagementTool/employEdit.jsp'"
+				onclick="location.href='/EmployeeManagementTool/employEdit.jsp?count=<%="count" %>'"
 				value=" 編集 "></td>
 			<td><input type="button"
-				onclick="location.href='/EmployeeManagementTool/employDeleteCheck.jsp'"
+				onclick="location.href='/EmployeeManagementTool/employDeleteCheck.jsp?count=<%="count" %>'"
 				value=" 削除 "></td>
 		</tr>
 		<% } %>
@@ -36,7 +38,7 @@ Departments = new DepartmentDAO().findAll(); %>
 	</table>
 	<br>
 	<input type="button"
-		onclick="location.href='/EmployeeManagementTool/departEdit.jsp'"
+		onclick="location.href='/EmployeeManagementTool/departEdit.jsp?count=<%="0" %>'"
 		value=" 新規追加 ">
 	<br>
 	<br>
