@@ -120,7 +120,7 @@ public class EmployeeDAO {
 		}
 	}
 
-	// 特定データの取得(int型を引数にIDで検索？)
+	// 特定データの取得(int型を引数にIDで検索)
 	public Employee findById(int i) {
 		Employee employee = new Employee();
 		Connection conn = null;
@@ -198,10 +198,9 @@ public class EmployeeDAO {
 			// データベースへ接続
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
-			// UPDATE文を準備
-			String sql = "UPDATE 社員情報 SET EMPLOYEE_ID='?',NAME='?',AGE=?,GENDER='?',"
-					+ "PHOTO_ID='?',ZIP='?',PREF='?',CITY='?',DEPARTMENT_ID='?',"
-					+ "ENTRY='?',RESIGN='?' WHERE ID=?";
+			// UPDATE文を準備()
+			String sql = "UPDATE 社員情報 SET EMPLOYEE_ID=?,NAME=?,AGE=?,GENDER=?,"
+					+ "PHOTO_ID=?,ZIP=?,PREF=?,CITY=?,DEPARTMENT_ID=?,ENTRY=?,RESIGN=? WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -273,7 +272,6 @@ public class EmployeeDAO {
 	public int insert(Employee employee) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-
 		try {
 
 			// JDBCドライバを読み込み
@@ -282,13 +280,41 @@ public class EmployeeDAO {
 			// データベースへ接続
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
-			// SELECT文を準備
+			// INSERT文を準備
 			String sql = "INSERT INTO 社員情報(ID,EMPLOYEE_ID," + "NAME,AGE,GENDER,PHOTO_ID,ZIP,PREF,CITY,"
 					+ "DEPARTMENT_ID,ENTRY,RESIGN)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
 
+			// IDが「0」で渡ってくるので最新IDを登録する
+			PreparedStatement oneTimePst = null;
+			ResultSet rs = null;
+
+			// IDを取り出してくるSELECT文
+			if(employee.getId() == 0){
+				String oneTimeSql = "SELECT ID FROM 社員情報";
+				oneTimePst = conn.prepareStatement(oneTimeSql);
+				rs = oneTimePst.executeQuery();
+				int maxIdCount = 0;
+
+				// 最大値のみを引っ張り出してmaxIdCountに格納
+				while (rs.next()) {
+					maxIdCount = rs.getInt("ID");
+				}
+
+				// 「最大値+1」をセットする
+				employee.setId(maxIdCount+1);
+			}
+			// ResultSetをクローズを閉じる
+			if(rs != null){
+				rs.close();
+			}
+
+			// PreparedStatementを閉じる
+			if (oneTimePst != null) {
+				oneTimePst.close();
+			}
 			pstmt.setInt(1, employee.getId());
 			pstmt.setString(2, employee.getEmpId());
 			pstmt.setString(3, employee.getEmpName());

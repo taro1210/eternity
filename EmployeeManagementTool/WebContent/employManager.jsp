@@ -1,3 +1,4 @@
+<%-- 社員管理のページ。直にJSPに飛ばして良いのか？ --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	<%@page import="java.util.ArrayList" %>
@@ -23,34 +24,39 @@
 		</tr>
 
 		<%-- 各行を送る際区別させるためのカウンター --%>
-		<% int count = 0; %>
 		<% for(Employee emp : employees){ %>
-		<% count++; %>
 		<tr>
 			<td><%=emp.getEmpId() %></td>
 			<td><%=emp.getEmpName() %></td>
-			<td><input type="button"
-				onclick="location.href='/EmployeeManagementTool/employEdit.jsp?count=<%=count %>'"
-				value=" 編集 "></td>
-			<td><input type="button"
-				onclick="location.href='/EmployeeManagementTool/employDeleteCheck.jsp?count=<%=count %>'"
-				value=" 削除 "></td>
+			<td>
+			<form action="/EmployeeManagementTool/employEdit.jsp">
+			<input type="hidden" name="count" value="<%=Integer.toString(emp.getId()) %>">
+			<input type="submit" value=" 編集 ">
+			</form>
+			</td>
+			<td>
+			<form action="/EmployeeManagementTool/employDeleteCheck.jsp">
+			<input type="hidden" name="count" value="<%=Integer.toString(emp.getId()) %>">
+			<input type="submit" value=" 削除 ">
+			</form>
+			</td>
 		</tr>
 		<% } %>
 
 	</table>
 	<br>
-	<input type="button"
-		onclick="location.href='/EmployeeManagementTool/employEdit.jsp?count=<%="0" %>'"
-		value=" 新規追加 ">
+	<form action="/EmployeeManagementTool/employEdit.jsp">
+			<input type="hidden" name="count" value="<%="0" %>">
+			<input type="submit" value=" 新規追加 ">
+	</form>
 	<br>
-	<input type="button"
-		onclick="location.href='/EmployeeManagementTool/employSearch.jsp'"
-		value=" 検索 ">
+	<form action="/EmployeeManagementTool/employSearch.jsp">
+			<input type="submit" value=" 検索 ">
+	</form>
 	<br>
-	<input type="button"
-		onclick="location.href='/EmployeeManagementTool/editCsv.jsp'"
-		value=" 保存(CSV) ">
+	<form action="/EmployeeManagementTool/editCsv.jsp">
+			<input type="submit" value=" 保存(CSV) ">
+	</form>
 	<br>
 	<br>
 	<a href="/EmployeeManagementTool/Manager.jsp">ＴＯＰページへ戻る</a>
