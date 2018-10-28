@@ -5,18 +5,19 @@ import java.io.Serializable;
 public class Employee implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private int 	id = 0; 			// プライマリキー
-	private String 	empId; 			// 社員ID
-	private String 	empName; 		// 社員名
-	private int 	empAge;  		// 年齢
-	private String 	empGender; 		// 性別
-	private String 	photoId = null;	// 写真ID
-	private String 	zip; 			// 郵便番号
-	private String 	pref; 			// 都道府県名
-	private String 	city; 			// 市区町名
-	private String 	dptId; 			// 部署名
-	private String 	entryDate; 		// 入社日
-	private String 	resignDate; 	// 退社日
+	private int 	id ; 	// プライマリキー
+	private String 	empId; 		// 社員ID
+	private String 	empName; 	// 社員名
+	private int 	empAge;  	// 年齢
+	private String 	empGender; 	// 性別
+	private String 	photoId;	// 写真ID
+	private String 	zip; 		// 郵便番号
+	private String 	pref; 		// 都道府県名
+	private String 	city; 		// 市区町名
+	private String 	dptId; 		// 部署名
+	private String 	entryDate; 	// 入社日
+	private String 	resignDate; // 退社日
+
 
 	public int getId() {
 		return id;

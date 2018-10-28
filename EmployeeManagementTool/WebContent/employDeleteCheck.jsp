@@ -21,11 +21,9 @@
 <form action="employManager.jsp">
 		<input type="submit" value=" キャンセル ">
 </form>
-<form action="/deleteEmployee" method="post">
-		<input type="hidden" name="count" value="<%=Integer.parseInt(count) %>">
+<form action="./deleteEmployee" method="post">
+		<input type="hidden" name="count" value="<%=count %>">
 		<input type="submit" value=" 実行 ">
 </form>
-<input type="button" onclick="location.href='employManager.jsp'"value=" キャンセル ">
-<input type="button" onclick="location.href='employDelete.jsp'"value=" 実行 ">
 </body>
 </html>

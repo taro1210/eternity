@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import dao.EmployeeDAO;
  * Servlet implementation class CommitEmployee
  */
 @WebServlet("/CommitEmployee")
+@MultipartConfig
 public class CommitEmployee extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -42,6 +44,7 @@ public class CommitEmployee extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		Employee employee = new Employee();
+
 
 		employee.setId(Integer.parseInt(request.getParameter("id")));
 		employee.setEmpId(request.getParameter("empId"));
@@ -71,10 +74,10 @@ public class CommitEmployee extends HttpServlet {
 		}
 
 		if(result == 1) {
-			request.getRequestDispatcher("/employRegist.jsp").forward(request, response);
+			request.getRequestDispatcher("/employRegist.jsp?result=登録").forward(request, response);
 		}else {
-			request.getRequestDispatcher("/employErrer.jsp").forward(request, response);
+			request.getRequestDispatcher("/employErrer.jsp?result=登録").forward(request, response);
 		}
 	}
-
 }
+//Part fPart = req.getPart("pic");InputStream in = fPart.getInputStream();JSP(png, jpeg) -> Servlet (Part -> InputStream) -> DAO(InputStreamをインサート) -> DB(Blob)

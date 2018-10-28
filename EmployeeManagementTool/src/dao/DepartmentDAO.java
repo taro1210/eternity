@@ -30,7 +30,7 @@ public class DepartmentDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "SELECT ID,DEPART_ID,DEPART_NAME FROM 部署情報";
+			String sql = "SELECT ID,DEPARTMENT_ID,DEPARTMENT_NAME FROM 部署情報";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -41,8 +41,8 @@ public class DepartmentDAO {
 			// 結果を１レコードづつ取得する
 			while (rs.next()) {
 				int    id		= rs.getInt   ("ID");		   // ID
-				String dptId	= rs.getString("DEPART_ID");   // 部署ID
-				String dptName	= rs.getString("DEPART_NAME"); // 部署名
+				String dptId	= rs.getString("DEPARTMENT_ID");   // 部署ID
+				String dptName	= rs.getString("DEPARTMENT_NAME"); // 部署名
 
 				// Productインスタンスにデータを保存する
 				Department department = new Department();
@@ -128,8 +128,8 @@ public class DepartmentDAO {
 			rs.next();
 
 			int    id		= rs.getInt   ("ID");		   // ID
-			String dptId	= rs.getString("DEPART_ID");   // 部署ID
-			String dptName	= rs.getString("DEPART_NAME"); // 部署名
+			String dptId	= rs.getString("DEPARTMENT_ID");   // 部署ID
+			String dptName	= rs.getString("DEPARTMENT_NAME"); // 部署名
 
 			// Productインスタンスにデータを保存する
 			department.setId(id);
@@ -162,7 +162,7 @@ public class DepartmentDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// UPDATE文を準備
-			String sql = "UPDATE 部署情報 SET DEPART_ID='?',DEPART_NAME='?',WHERE ID=?";
+			String sql = "UPDATE 部署情報 SET DEPARTMENT_ID='?',DEPARTMENT_NAME='?',WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);

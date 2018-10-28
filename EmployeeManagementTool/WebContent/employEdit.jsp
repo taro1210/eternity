@@ -54,42 +54,34 @@
 
 	  // 各項目を代入
 	  empIdmsg = "value="+emp.getEmpId();
-
 	  // 名前は姓と名を分割し代入
 	  String[] name = emp.getEmpName().split("　");
 	  empFamillyNamemsg = "value="+name[0];
 	  empFirstNamemsg = "value="+name[1];
-
 	  //年齢
 	  empAgemsg = "value="+emp.getEmpAge();
-
 	  // 性別の自動チェック(nullならチェックされない)
 	  if(emp.getEmpGender().equals("男")){
 		  empGenderMalemsg = "checked = checked";
 	  }else if(emp.getEmpGender().equals("女")){
 		  empGenderFemalemsg = "checked= checked";
 	  }
-
 	  //郵便番号は「-」で分割して代入
 	  String[] zip = emp.getZip().split("-");
 	  zipFirstmsg = "value="+zip[0];
 	  zipSecondmsg = "value="+zip[1];
-
 	  //都道府県は中身取り出して代入しておく
 	  if(emp.getPref() != null){
 	  	prefmsg = emp.getPref();
 	  }
-
 	  //市区町名(nullなら半透明メッセージ)
 	  if(emp.getCity() != null){
 	  	citymsg = "value="+emp.getCity();
 	  }
-
 	  //部署IDも中身取り出して代入しておく(nullチェック)
 	  if(emp.getDptId() != null){
 	  	dptIdmsg = emp.getDptId();
 	  }
-
 	  //入社日は「-」分割して格納(nullチェック)
 	  if(emp.getEntryDate() != null){
 	  	String[] entry = emp.getEntryDate().split("-");
@@ -97,7 +89,6 @@
 	  	entryMonthmsg = "value="+entry[1];
 	  	entryDaymsg = "value="+entry[2];
 	  }
-
 	  // 退職日は「-」分割して格納(nullチェック)
 	  if(emp.getResignDate() != null){
 		String[] resign = emp.getResignDate().split("-");
@@ -105,14 +96,13 @@
 		resignMonthmsg = "value="+resign[1];
 		resignDaymsg = "value="+resign[2];
 	  }
-
   	} %>
 
   	<% ArrayList<Department>Departments = new ArrayList<Department>();
 	 Departments = new DepartmentDAO().findAll(); %>
 <body>
 	<h2>社員情報追加・編集</h2>
-	<form action="./CommitEmployee" method="post">
+	<form action="./CommitEmployee" method="post" enctype="multipart/form-data">
 
 
 	<input type="hidden" name="id" value="<%=count %>">
@@ -132,14 +122,14 @@
 	</p>
 	写真：
 	<p>
-	<img src="yotubainu-001.png">
+	画像ファイル<input type="file" name="pic">
 	</p>
 	<p>
 		<input type="button" value=" ファイルを選択 ">
 	</p>
 	<p>
-		郵便番号：<input pattern="\d{3}" title="3桁の半角数字で入力してください" size="3" name="firstZip" <%=zipFirstmsg %>> -
-				  <input pattern="\d{4}" title="4桁の半角数字で入力してください" size="4" name="secondZip"<%=zipSecondmsg %>>
+		郵便番号：<input pattern="\d{3}" title="3桁で入力してください" size="3" name="firstZip" <%=zipFirstmsg %>> -
+				  <input pattern="\d{4}" title="4桁で入力してください" size="4" name="secondZip"<%=zipSecondmsg %>>
 	</p>
 	<p>住所</p>
 	<p>
@@ -180,7 +170,7 @@
 	</p>
 	<p>
 		退社日：
-		<input pattern="\d{4}" title="4桁で入力してください" name="resignYear" size="4" size="4" min="0000" max="9999"<%=resignYearmsg %>>年
+		<input pattern="\d{4}" title="4桁で入力してください" name="resignYear" size="4" min="1900" max="2100"<%=resignYearmsg %>>年
 		<input pattern="\d{2}" title="2桁で入力してください(1桁の時は前に0を入力)" name="resignMonth" size="2" min="01" max="12"<%=resignMonthmsg %>>月
 		<input pattern="\d{2}" title="2桁で入力してください(1桁の時は前に0を入力)" name="resignDay" size="2" min="01" max="31"<%=resignDaymsg %>>日
 	</p>
