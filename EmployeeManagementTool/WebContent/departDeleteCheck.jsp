@@ -11,12 +11,18 @@
         color:red;
       }
     </style>
+    <%String count =request.getParameter("count"); %>
 <body>
 <h2>選択した項目を削除します</h2>
 <br>
 <p>※操作は取り消せません。<br><span style="font-size:x-large">よろしいですか？</span></p>
 <br>
-<input type="button" onclick="location.href='departmentManager.jsp'"value=" キャンセル ">
-<input type="button" onclick="location.href='departDelete.jsp'"value=" 実行 ">
+<form action="departManager.jsp">
+		<input type="submit" value=" キャンセル ">
+</form>
+<form action="./DeleteDepartment" method="post">
+		<input type="hidden" name="count" value="<%=count %>">
+		<input type="submit" value=" 実行 ">
+</form>
 </body>
 </html>

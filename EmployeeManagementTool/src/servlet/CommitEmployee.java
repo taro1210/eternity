@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -8,9 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import beans.Employee;
+import beans.Photo;
 import dao.EmployeeDAO;
+import dao.PhotoDAO;
 
 /**
  * Servlet implementation class CommitEmployee
@@ -43,7 +47,28 @@ public class CommitEmployee extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 
+		Photo photo = new Photo();
 		Employee employee = new Employee();
+
+		Part fPart = request.getPart("img");
+		InputStream is = fPart.getInputStream();
+		photo.setId(Integer.parseInt(request.getParameter("id")));
+		photo.setPhotoId(request.getParameter("id"));
+		photo.setPhoto(is);
+		int rstPhoto = 0;
+		if(photo.getId() == 0){
+			rstPhoto = new PhotoDAO().insert(photo);
+		}else {
+			rstPhoto = new PhotoDAO().update(photo);
+		}
+
+		if (rstPhoto == 1) {
+			employee.setPhotoId(photo.getPhotoId());
+		}else {
+			employee.setPhotoId(null);
+		}
+		System.out.println(employee.getPhotoId());
+
 
 
 		employee.setId(Integer.parseInt(request.getParameter("id")));
@@ -51,7 +76,6 @@ public class CommitEmployee extends HttpServlet {
 		employee.setEmpName(request.getParameter("empFamillyName") + "　" + request.getParameter("empFirstName"));
 		employee.setEmpAge(Integer.parseInt(request.getParameter("empAge")));
 		employee.setEmpGender(request.getParameter("gender"));
-		//employee.setPhotoId(request.getParameter("photoId"));  ←今はまだ未定義なので…
 		employee.setZip(request.getParameter("firstZip") + "-" + request.getParameter("secondZip"));
 		employee.setPref(request.getParameter("pref"));
 		employee.setCity(request.getParameter("city"));
@@ -80,4 +104,3 @@ public class CommitEmployee extends HttpServlet {
 		}
 	}
 }
-//Part fPart = req.getPart("pic");InputStream in = fPart.getInputStream();JSP(png, jpeg) -> Servlet (Part -> InputStream) -> DAO(InputStreamをインサート) -> DB(Blob)

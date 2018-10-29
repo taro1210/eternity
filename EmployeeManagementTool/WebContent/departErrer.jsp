@@ -1,14 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<% String result = request.getParameter("result");%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    <% String result = request.getParameter("result");%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>社員情報：<%=result %>完了</title>
+<title>社員情報：<%=result %>失敗</title>
 </head>
+<style>
+      h2{
+        color:red;
+      }
+    </style>
 <body>
-<h2><%=result %>完了しました</h2>
+<h2><%=result %>に失敗しました</h2>
 <br>
 <input type="button" onclick="location.href='/EmployeeManagementTool/departManager.jsp'"value=" 一覧に戻る ">
 </body>

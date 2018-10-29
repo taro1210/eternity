@@ -30,7 +30,7 @@ public class DepartmentDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "SELECT ID,DEPARTMENT_ID,DEPARTMENT_NAME FROM 部署情報";
+			String sql = "SELECT ID,DEPART_ID,DEPART_NAME FROM 部署情報";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -41,8 +41,8 @@ public class DepartmentDAO {
 			// 結果を１レコードづつ取得する
 			while (rs.next()) {
 				int    id		= rs.getInt   ("ID");		   // ID
-				String dptId	= rs.getString("DEPARTMENT_ID");   // 部署ID
-				String dptName	= rs.getString("DEPARTMENT_NAME"); // 部署名
+				String dptId	= rs.getString("DEPART_ID");   // 部署ID
+				String dptName	= rs.getString("DEPART_NAME"); // 部署名
 
 				// Productインスタンスにデータを保存する
 				Department department = new Department();
@@ -115,9 +115,7 @@ public class DepartmentDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "SELECT ID,EMPLOYEE_ID,NAME,AGE,GENDER,PHOTO_ID,"
-					+ "ZIP,PREF,CITY,DEPARTMENT_ID,ENTRY,RESIGN "
-					+ "FROM 部署情報 WHERE ID=?";
+			String sql = "SELECT * FROM 部署情報 WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -128,8 +126,8 @@ public class DepartmentDAO {
 			rs.next();
 
 			int    id		= rs.getInt   ("ID");		   // ID
-			String dptId	= rs.getString("DEPARTMENT_ID");   // 部署ID
-			String dptName	= rs.getString("DEPARTMENT_NAME"); // 部署名
+			String dptId	= rs.getString("DEPART_ID");   // 部署ID
+			String dptName	= rs.getString("DEPART_NAME"); // 部署名
 
 			// Productインスタンスにデータを保存する
 			department.setId(id);
@@ -162,7 +160,7 @@ public class DepartmentDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// UPDATE文を準備
-			String sql = "UPDATE 部署情報 SET DEPARTMENT_ID='?',DEPARTMENT_NAME='?',WHERE ID=?";
+			String sql = "UPDATE 部署情報 SET DEPART_ID=?,DEPART_NAME=? WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -221,7 +219,7 @@ public class DepartmentDAO {
 		}
 	}
 
-	// データの登録(INSERT)
+	// データの新規登録(INSERT)
 	public int insert(Department department) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -235,10 +233,55 @@ public class DepartmentDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "INSERT INTO 部署情報(ID,DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(?,?,?)";
+			String sql = "INSERT INTO 部署情報(ID,DEPART_ID,DEPART_NAME) VALUES(?,?,?)";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
+
+			// IDが「0」で渡ってくるので最新IDを登録する
+						PreparedStatement oneTimePst = null;
+						ResultSet rs = null;
+
+						// IDを取り出してくるSELECT文
+						if(department.getId() == 0){
+							String oneTimeSql = "SELECT ID FROM 部署情報";
+							oneTimePst = conn.prepareStatement(oneTimeSql);
+							rs = oneTimePst.executeQuery();
+							int maxIdCount = 0;
+							int BeforeIdCount = 0;
+
+
+							// 最大値のみを引っ張り出してmaxIdCountに格納
+							while (rs.next()) {
+								maxIdCount = rs.getInt("ID");
+
+								// もし間が空いていたらそこに入れたい
+								if(maxIdCount - BeforeIdCount != 1){
+									maxIdCount = BeforeIdCount;
+									break;
+								}
+								BeforeIdCount = maxIdCount;
+							}
+
+							// 「最大値+1」をセットする
+							department.setId(maxIdCount+1);
+
+							// 部署IDは「D-(id値)」にする(0埋めしたい)
+							if(maxIdCount+1 > 9){
+								department.setDptId("D-" + (maxIdCount+1));
+							}else {
+								department.setDptId("D-0" + (maxIdCount+1));
+							}
+						}
+						// ResultSetをクローズを閉じる
+						if(rs != null){
+							rs.close();
+						}
+
+						// PreparedStatementを閉じる
+						if (oneTimePst != null) {
+							oneTimePst.close();
+						}
 
 			pstmt.setInt(1, department.getId());
 			pstmt.setString(2, department.getDptId());

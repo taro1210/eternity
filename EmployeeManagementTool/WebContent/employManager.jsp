@@ -54,7 +54,7 @@
 			<input type="submit" value=" 検索 ">
 	</form>
 	<br>
-	<form action="/EmployeeManagementTool/editCsv.jsp">
+	<form action="./SaveCsvEmployee" method="post">
 			<input type="submit" value=" 保存(CSV) ">
 	</form>
 	<br>

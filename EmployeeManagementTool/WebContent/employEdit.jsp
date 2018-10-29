@@ -51,7 +51,6 @@
 	if(!(count.equals("0"))){
 	  EmployeeDAO dao = new EmployeeDAO();
 	  Employee emp = dao.findById(Integer.parseInt(count));
-
 	  // 各項目を代入
 	  empIdmsg = "value="+emp.getEmpId();
 	  // 名前は姓と名を分割し代入
@@ -120,12 +119,8 @@
 		性別：<input type="radio" name="gender" value="男" <%= empGenderMalemsg %>>男性
 			  <input type="radio" name="gender" value="女" <%= empGenderFemalemsg %>>女性
 	</p>
-	写真：
 	<p>
-	画像ファイル<input type="file" name="pic">
-	</p>
-	<p>
-		<input type="button" value=" ファイルを選択 ">
+	写真：<input type="file" name="img">
 	</p>
 	<p>
 		郵便番号：<input pattern="\d{3}" title="3桁で入力してください" size="3" name="firstZip" <%=zipFirstmsg %>> -

@@ -31,7 +31,7 @@ public class EmployeeDAO {
 
 			// SELECT文を準備
 			String sql = "SELECT ID,EMPLOYEE_ID,NAME,AGE,GENDER,"
-						+ "PHOTO_ID,ZIP,PREF,CITY,DEPARTMENT_ID,"
+						+ "PHOTO_ID,ZIP,PREF,CITY,DEPART_ID,"
 						+ "ENTRY,RESIGN FROM 社員情報 ORDER BY ID ASC";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
@@ -51,7 +51,7 @@ public class EmployeeDAO {
 				String zip       = rs.getString("ZIP");			 // 郵便番号
 				String pref      = rs.getString("PREF");		 // 都道府県
 				String city      = rs.getString("CITY");		 // 市町村
-				String dptId     = rs.getString("DEPARTMENT_ID");// 部署ID
+				String dptId     = rs.getString("DEPART_ID");// 部署ID
 				String entry     = rs.getString("ENTRY");		 // 入社日
 				String resign    = rs.getString("RESIGN");		 // 退社日
 
@@ -136,7 +136,7 @@ public class EmployeeDAO {
 
 			// SELECT文を準備
 			String sql = "SELECT ID,EMPLOYEE_ID,NAME,AGE,GENDER,PHOTO_ID,"
-					+ "ZIP,PREF,CITY,DEPARTMENT_ID,ENTRY,RESIGN "
+					+ "ZIP,PREF,CITY,DEPART_ID,ENTRY,RESIGN "
 					+ "FROM 社員情報 WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
@@ -155,7 +155,7 @@ public class EmployeeDAO {
 			String zip       = rs.getString("ZIP");			 // 郵便番号
 			String pref      = rs.getString("PREF");		 // 都道府県
 			String city      = rs.getString("CITY");		 // 市町村
-			String dptId     = rs.getString("DEPARTMENT_ID");// 部署ID
+			String dptId     = rs.getString("DEPART_ID");// 部署ID
 			String entry     = rs.getString("ENTRY");		 // 入社日
 			String resign    = rs.getString("RESIGN");		 // 退社日
 
@@ -200,7 +200,7 @@ public class EmployeeDAO {
 
 			// UPDATE文を準備
 			String sql = "UPDATE 社員情報 SET EMPLOYEE_ID=?,NAME=?,AGE=?,GENDER=?,"
-					+ "PHOTO_ID=?,ZIP=?,PREF=?,CITY=?,DEPARTMENT_ID=?,"
+					+ "PHOTO_ID=?,ZIP=?,PREF=?,CITY=?,DEPART_ID=?,"
 					+ "ENTRY=?,RESIGN=? WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
@@ -284,7 +284,7 @@ public class EmployeeDAO {
 
 			// SELECT文を準備
 			String sql = "INSERT INTO 社員情報(ID,EMPLOYEE_ID,NAME,AGE,GENDER,PHOTO_ID,ZIP,PREF,CITY,"
-					+ "DEPARTMENT_ID,ENTRY,RESIGN)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "DEPART_ID,ENTRY,RESIGN)" + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -382,7 +382,7 @@ public class EmployeeDAO {
 
 			// SELECT文を準備
 			String sql =
-					"SELECT * FROM 社員情報 WHERE DEPARTMENT_ID LIKE ? AND EMPLOYEE_ID LIKE ? AND NAME LIKE ?";
+					"SELECT * FROM 社員情報 WHERE DEPART_ID LIKE ? AND EMPLOYEE_ID LIKE ? AND NAME LIKE ? ORDER BY ID ASC";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -416,7 +416,7 @@ public class EmployeeDAO {
 				String zip       = rs.getString("ZIP");			 // 郵便番号
 				String pref      = rs.getString("PREF");		 // 都道府県
 				String city      = rs.getString("CITY");		 // 市町村
-				String dptId     = rs.getString("DEPARTMENT_ID");// 部署ID
+				String dptId     = rs.getString("DEPART_ID");// 部署ID
 				String entry     = rs.getString("ENTRY");		 // 入社日
 				String resign    = rs.getString("RESIGN");		 // 退社日
 

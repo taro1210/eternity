@@ -3,6 +3,8 @@
 <%@page import="java.util.ArrayList" %>
 <%@page import="beans.Employee"%>
 <%@page import="dao.EmployeeDAO" %>
+<%@page import="dao.DepartmentDAO" %>
+<%@page import="beans.Department" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +20,8 @@
    <%System.out.println(searchEmpName); %>
 <% ArrayList<Employee>employees = new ArrayList<Employee>();
    employees = new EmployeeDAO().search(searchDptId, searchEmpId, searchEmpName); %>
+<% ArrayList<Department>Departments = new ArrayList<Department>();
+	 Departments = new DepartmentDAO().findAll(); %>
 <body>
 <h2>検索結果を表示します</h2>
 <table border="1">
@@ -44,12 +48,18 @@
 			<td><%= emp.getZip() %></td>
 			<td><%= emp.getPref() %></td>
 			<td><%= emp.getCity() %></td>
-			<td><%= emp.getDptId() %></td>
+			<% for(Department dpt : Departments){
+				if(emp.getDptId().equals(dpt.getDptId())){%>
+			<td><%= dpt.getDptName() %></td>
+			<% 		break;
+				}%>
+			<% } %>
 			<td><%= emp.getEntryDate() %></td>
 			<td><%= emp.getResignDate() %></td>
 		</tr>
 <%} %>
 </table>
+<br>
 <input type="button" onclick="location.href='/EmployeeManagementTool/employManager.jsp'"value=" 一覧に戻る ">
 </body>
 </html>

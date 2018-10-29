@@ -8,19 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.EmployeeDAO;
+import beans.Department;
+import dao.DepartmentDAO;
 
 /**
- * Servlet implementation class deleteEmployee
+ * Servlet implementation class CommitDepartment
  */
-@WebServlet("/deleteEmployee")
-public class DeleteEmployee extends HttpServlet {
+@WebServlet("/CommitDepartment")
+public class CommitDepartment extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteEmployee() {
+    public CommitDepartment() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,12 +39,23 @@ public class DeleteEmployee extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		Department department = new Department();
+
+		department.setId(Integer.parseInt(request.getParameter("id")));
+		department.setDptId(request.getParameter("dptId"));
+		department.setDptName(request.getParameter("dptName"));
+
 		int result = 0;
-		result = new EmployeeDAO().delete(Integer.parseInt(request.getParameter("count")));
-		if (result == 1) {
-			request.getRequestDispatcher("/employRegist.jsp?result=削除").forward(request, response);
+		if(department.getId() == 0) {
+			result = new DepartmentDAO().insert(department);
 		}else {
-			request.getRequestDispatcher("/employErrer.jsp?result=削除").forward(request, response);
+			result = new DepartmentDAO().update(department);
+		}
+
+		if(result == 1) {
+			request.getRequestDispatcher("/departRegist.jsp?result=登録").forward(request, response);
+		}else {
+			request.getRequestDispatcher("/departErrer.jsp?result=登録").forward(request, response);
 		}
 	}
 

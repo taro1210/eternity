@@ -11,6 +11,6 @@
 <a href="/EmployeeManagementTool/employManager.jsp">■ 社員情報へ</a>
 <br>
 <br>
-<a href="/EmployeeManagementTool/departmentManager.jsp">■ 部署情報へ</a>
+<a href="/EmployeeManagementTool/departManager.jsp">■ 部署情報へ</a>
 </body>
 </html>
