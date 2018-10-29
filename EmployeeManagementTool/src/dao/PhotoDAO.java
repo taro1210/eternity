@@ -2,8 +2,6 @@ package dao;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,7 +33,7 @@ public class PhotoDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "SELECT IMG FROM 写真情報 WHERE ID = ?";
+			String sql = "SELECT IMG FROM 写真 WHERE ID = ?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -46,7 +44,7 @@ public class PhotoDAO {
 
 			Blob blob = rs.getBlob(i);
 			InputStream is = blob.getBinaryStream();
-				Files.copy(is, Paths.get("C:\\CodeCamp\\output"+ i +".png"));
+				
 
 			return photo;
 
@@ -74,7 +72,7 @@ public class PhotoDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// UPDATE文を準備
-			String sql = "UPDATE 写真情報 SET IMG_ID=?,IMG=? WHERE ID=?";
+			String sql = "UPDATE 写真 SET IMG_ID=?,IMG=? WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -112,7 +110,7 @@ public class PhotoDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "INSERT INTO 写真情報 VALUES(?, ?, ?)";
+			String sql = "INSERT INTO 写真 VALUES(?, ?, ?)";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -123,7 +121,7 @@ public class PhotoDAO {
 
 			// IDを取り出してくるSELECT文
 			if(photo.getId() == 0){
-				String oneTimeSql = "SELECT ID FROM 写真情報";
+				String oneTimeSql = "SELECT ID FROM 写真";
 				oneTimePst = conn.prepareStatement(oneTimeSql);
 				rs = oneTimePst.executeQuery();
 				int maxIdCount = 0;

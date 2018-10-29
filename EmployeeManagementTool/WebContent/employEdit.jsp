@@ -120,7 +120,8 @@
 			  <input type="radio" name="gender" value="女" <%= empGenderFemalemsg %>>女性
 	</p>
 	<p>
-	写真：<input type="file" name="img">
+	写真：<img alt="" src="./PhotoViewServle?count=<%=count %>">
+	<input type="file" name="img">
 	</p>
 	<p>
 		郵便番号：<input pattern="\d{3}" title="3桁で入力してください" size="3" name="firstZip" <%=zipFirstmsg %>> -
