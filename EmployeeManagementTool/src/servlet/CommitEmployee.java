@@ -62,6 +62,7 @@ public class CommitEmployee extends HttpServlet {
 			rstPhoto = new PhotoDAO().update(photo);
 		}
 
+
 		if (rstPhoto == 1) {
 			employee.setPhotoId(photo.getPhotoId());
 		}else {
@@ -82,10 +83,10 @@ public class CommitEmployee extends HttpServlet {
 		employee.setDptId(request.getParameter("dptId"));
 		employee.setEntryDate(request.getParameter("entryYear") + "-" + request.getParameter("entryMonth") + "-"+ request.getParameter("entryDay"));
 
-		// 退社日は登録されなければnullを返す
+		// 退社日は登録されなければ空白を返す
 		if(request.getParameter("resignYear").equals("") || request.getParameter("resignMonth").equals("")
 			|| request.getParameter("resignDay").equals("")){
-			employee.setResignDate(null);
+			employee.setResignDate("");
 		}else{
 			employee.setResignDate(request.getParameter("resignYear") + "-" + request.getParameter("resignMonth") + "-"+ request.getParameter("resignDay"));
 		}

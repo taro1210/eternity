@@ -1,6 +1,5 @@
 package dao;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -18,9 +17,8 @@ public class PhotoDAO {
 	private final String DB_PASS = "";
 
 
-	// 写真データの取得
+	// データの取得
 	public Photo findById(int i) {
-		Photo photo = new Photo();
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -33,7 +31,7 @@ public class PhotoDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "SELECT IMG FROM 写真 WHERE ID = ?";
+			String sql = "SELECT IMG FROM 写真情報 WHERE ID = ?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -41,14 +39,19 @@ public class PhotoDAO {
 			// SQLを実行し、結果はResultSetインスタンスに格納される
 			rs = pstmt.executeQuery();
 			rs.next();
+			int    id        = rs.getInt   ("ID");
+			String photoId   = rs.getString("PHOTO_ID");
+			Blob blob 		 = rs.getBlob("IMG");
 
-			Blob blob = rs.getBlob(i);
+			Photo photo = new Photo();
+			photo.setId(id);
+			photo.setPhotoId(photoId);
 			InputStream is = blob.getBinaryStream();
-				
+			photo.setPhoto(is);
 
 			return photo;
 
-		} catch (SQLException | IOException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 
@@ -72,7 +75,7 @@ public class PhotoDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// UPDATE文を準備
-			String sql = "UPDATE 写真 SET IMG_ID=?,IMG=? WHERE ID=?";
+			String sql = "UPDATE 写真情報 SET IMG_ID=?,IMG=? WHERE ID=?";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -80,8 +83,7 @@ public class PhotoDAO {
 			pstmt.setBlob(2, photo.getPhoto());
 			pstmt.setInt(3, photo.getId());
 
-			pstmt.executeUpdate();
-			return 1;
+			return pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -110,7 +112,7 @@ public class PhotoDAO {
 			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
 
 			// SELECT文を準備
-			String sql = "INSERT INTO 写真 VALUES(?, ?, ?)";
+			String sql = "INSERT INTO 写真情報 VALUES(?, ?, ?)";
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
@@ -121,7 +123,7 @@ public class PhotoDAO {
 
 			// IDを取り出してくるSELECT文
 			if(photo.getId() == 0){
-				String oneTimeSql = "SELECT ID FROM 写真";
+				String oneTimeSql = "SELECT ID FROM 写真情報";
 				oneTimePst = conn.prepareStatement(oneTimeSql);
 				rs = oneTimePst.executeQuery();
 				int maxIdCount = 0;
@@ -129,12 +131,6 @@ public class PhotoDAO {
 				// 最大値のみを引っ張り出してmaxIdCountに格納
 				while (rs.next()) {
 					maxIdCount = rs.getInt("ID");
-				}
-				// 部署IDは「D-(id値)」にする(0埋めしたい)
-				if(maxIdCount+1 > 9){
-					photo.setPhotoId("P-" + (maxIdCount+1));
-				}else {
-					photo.setPhotoId("P-0" + (maxIdCount+1));
 				}
 
 				// 「最大値+1」をセットする
@@ -153,8 +149,7 @@ public class PhotoDAO {
 			pstmt.setInt(1, photo.getId());
 			pstmt.setString(2, photo.getPhotoId());
 			pstmt.setBlob(3, photo.getPhoto());
-			pstmt.executeUpdate();
-			return 1;
+			return pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -89,7 +89,7 @@
 	  	entryDaymsg = "value="+entry[2];
 	  }
 	  // 退職日は「-」分割して格納(nullチェック)
-	  if(emp.getResignDate() != null){
+	  if(!(emp.getResignDate().equals(""))){
 		String[] resign = emp.getResignDate().split("-");
 		resignYearmsg = "value="+resign[0];
 		resignMonthmsg = "value="+resign[1];
@@ -113,7 +113,7 @@
 		 <input type="text" placeholder="名" name="empFirstName" size="10" <%= empFirstNamemsg %>>
 	</p>
 	<p>
-		年齢：<input type="number" name="empAge" size="3" max="300" <%=empAgemsg %>>
+		年齢：<input pattern="\d{2}" title="2桁の数字で入力してください" name="empAge" size="3" max="300" <%=empAgemsg %>>
 	</p>
 	<p>
 		性別：<input type="radio" name="gender" value="男" <%= empGenderMalemsg %>>男性
@@ -124,8 +124,8 @@
 	<input type="file" name="img">
 	</p>
 	<p>
-		郵便番号：<input pattern="\d{3}" title="3桁で入力してください" size="3" name="firstZip" <%=zipFirstmsg %>> -
-				  <input pattern="\d{4}" title="4桁で入力してください" size="4" name="secondZip"<%=zipSecondmsg %>>
+		郵便番号：<input pattern="\d{3}" title="3桁の数字で入力してください" size="3" name="firstZip" <%=zipFirstmsg %>> -
+				  <input pattern="\d{4}" title="4桁の数字で入力してください" size="4" name="secondZip"<%=zipSecondmsg %>>
 	</p>
 	<p>住所</p>
 	<p>
@@ -160,18 +160,22 @@
 	</p>
 	<p>
 		入社日：
-		<input pattern="\d{4}" title="4桁で入力してください" name="entryYear" size="4" min="1900" max="2100"<%=entryYearmsg %>>年
-		<input pattern="\d{2}" title="2桁で入力してください(1桁の時は前に0を入力)" name="entryMonth" size="2" min="01" max="12"<%=entryMonthmsg %>>月
-		<input pattern="\d{2}" title="2桁で入力してください(1桁の時は前に0を入力)" name="entryDay" size="2" min="01" max="31"<%=entryDaymsg %>>日
+		<input pattern="\d{4}" title="4桁の半角数字で入力してください" name="entryYear" size="4" min="1900" max="2100"<%=entryYearmsg %>>年
+		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="entryMonth" size="2" min="01" max="12"<%=entryMonthmsg %>>月
+		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="entryDay" size="2" min="01" max="31"<%=entryDaymsg %>>日
 	</p>
 	<p>
 		退社日：
-		<input pattern="\d{4}" title="4桁で入力してください" name="resignYear" size="4" min="1900" max="2100"<%=resignYearmsg %>>年
-		<input pattern="\d{2}" title="2桁で入力してください(1桁の時は前に0を入力)" name="resignMonth" size="2" min="01" max="12"<%=resignMonthmsg %>>月
-		<input pattern="\d{2}" title="2桁で入力してください(1桁の時は前に0を入力)" name="resignDay" size="2" min="01" max="31"<%=resignDaymsg %>>日
+		<input pattern="\d{4}" title="4桁の半角数字で入力してください" name="resignYear" size="4" min="1900" max="2100"<%=resignYearmsg %>>年
+		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="resignMonth" size="2" min="01" max="12"<%=resignMonthmsg %>>月
+		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="resignDay" size="2" min="01" max="31"<%=resignDaymsg %>>日
 	</p>
 	<br>
 	<input type="submit" value=" 登録 " />
+	</form>
+	<br>
+	<form action="/EmployeeManagementTool/employManager.jsp">
+	<input type="submit" value=" キャンセル " />
 	</form>
 </body>
 </html>

@@ -32,5 +32,9 @@
 		<br>
 		<input type="submit" value=" 登録 " />
 	</form>
+	<br>
+	<form action="/EmployeeManagementTool/departManager.jsp">
+	<input type="submit" value=" キャンセル " />
+	</form>
 </body>
 </html>

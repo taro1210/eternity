@@ -60,6 +60,16 @@
 <%} %>
 </table>
 <br>
+	<br>
+	<form action="/EmployeeManagementTool/employEdit.jsp">
+			<input type="hidden" name="count" value="<%="0" %>">
+			<input type="submit" value=" 新規追加 ">
+	</form>
+	<br>
+	<form action="/EmployeeManagementTool/employSearch.jsp">
+			<input type="submit" value=" 検索 ">
+	</form>
+	<br>
 <input type="button" onclick="location.href='/EmployeeManagementTool/employManager.jsp'"value=" 一覧に戻る ">
 </body>
 </html>
