@@ -49,17 +49,24 @@ public class CommitEmployee extends HttpServlet {
 
 		Photo photo = new Photo();
 		Employee employee = new Employee();
+		PhotoDAO dao = new PhotoDAO();
 
 		Part fPart = request.getPart("img");
 		InputStream is = fPart.getInputStream();
-		photo.setId(Integer.parseInt(request.getParameter("id")));
+		String id = request.getParameter("id");
+		Photo p = dao.findById(Integer.parseInt(id));
+		if(p == null) {
+			id = "0";
+		}
+
+		photo.setId(Integer.parseInt(id));
 		photo.setPhotoId(request.getParameter("id"));
 		photo.setPhoto(is);
 		int rstPhoto = 0;
 		if(photo.getId() == 0){
-			rstPhoto = new PhotoDAO().insert(photo);
+			rstPhoto = dao.insert(photo);
 		}else {
-			rstPhoto = new PhotoDAO().update(photo);
+			rstPhoto = dao.update(photo);
 		}
 
 

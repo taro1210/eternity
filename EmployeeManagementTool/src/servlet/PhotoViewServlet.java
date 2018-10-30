@@ -1,17 +1,16 @@
 package servlet;
 
-import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import beans.Photo;
 import dao.PhotoDAO;
 
 /**
@@ -33,32 +32,14 @@ public class PhotoViewServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+
+		BufferedInputStream bis = new PhotoDAO().findByPhoto(Integer.parseInt(request.getParameter("count")));
 		response.setContentType("image/jpeg");
-
-		Photo photo = new Photo();
-		photo = new PhotoDAO().findById(Integer.parseInt(request.getParameter("count")));
-
-		 BufferedImage img = photo.getPhoto(); //画像データを取得
-		 OutputStream os = response.getOutputStream();
-		 try {
-		ImageIO.write(img, "jpg", os);
-		 }
-		 catch (IOException e) {
+		ServletOutputStream os = response.getOutputStream();
+		BufferedOutputStream bout = new BufferedOutputStream(os);
+		int ch = 0;
+		while ((ch = bis.read()) != -1) {
+			bout.write(ch);
 		}
-		os.flush();
-
-		response.sendRedirect("/EmployeeManagementTool/employEdit.jsp");
-
-
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
+ 	}
 }

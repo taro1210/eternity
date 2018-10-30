@@ -1,7 +1,7 @@
 package dao;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,9 +16,8 @@ public class PhotoDAO {
 	private final String DB_USER = "sa";
 	private final String DB_PASS = "";
 
-
 	// データの取得
-	public Photo findById(int i) {
+	public BufferedInputStream findByPhoto(int i) {
 		Connection conn = null;
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -35,31 +34,54 @@ public class PhotoDAO {
 
 			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,i);
+			pstmt.setInt(1, i);
 			// SQLを実行し、結果はResultSetインスタンスに格納される
 			rs = pstmt.executeQuery();
-			rs.next();
-			int    id        = rs.getInt   ("ID");
-			String photoId   = rs.getString("PHOTO_ID");
-			Blob blob 		 = rs.getBlob("IMG");
+			InputStream is = null;
+			if (rs.next()) {
+				is = rs.getBinaryStream("IMG");
+			}
+			BufferedInputStream bis = new BufferedInputStream(is);
+			return bis;
 
-			Photo photo = new Photo();
-			photo.setId(id);
-			photo.setPhotoId(photoId);
-			InputStream is = blob.getBinaryStream();
-			photo.setPhoto(is);
-
-			return photo;
-
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
-			return null;
-
-			// JDBCドライバが見つからなかったときの処理
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
 		}
+		return null;
+	}
+
+	public Photo findById(int i) {
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		try {
+
+			// JDBCドライバを読み込み
+			Class.forName(DRIVER_NAME);
+
+			// データベースへ接続
+			conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS);
+
+			// SELECT文を準備
+			String sql = "SELECT IMG_ID FROM 写真情報 WHERE ID = ?";
+
+			// 準備したSQLをデータベースに届けるPrepareStatementインスタンスを取得する
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, i);
+			// SQLを実行し、結果はResultSetインスタンスに格納される
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+					String id = rs.getString("IMG_ID");
+
+					Photo photo = new Photo();
+					photo.setPhotoId(id);;
+
+					return photo;
+			}
+		} catch (NullPointerException | SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	// データの更新
@@ -96,8 +118,6 @@ public class PhotoDAO {
 		}
 	}
 
-
-
 	// データの新規登録(INSERT)
 	public int insert(Photo photo) {
 		Connection conn = null;
@@ -122,7 +142,7 @@ public class PhotoDAO {
 			ResultSet rs = null;
 
 			// IDを取り出してくるSELECT文
-			if(photo.getId() == 0){
+			if (photo.getId() == 0) {
 				String oneTimeSql = "SELECT ID FROM 写真情報";
 				oneTimePst = conn.prepareStatement(oneTimeSql);
 				rs = oneTimePst.executeQuery();
@@ -134,10 +154,10 @@ public class PhotoDAO {
 				}
 
 				// 「最大値+1」をセットする
-				photo.setId(maxIdCount+1);
+				photo.setId(maxIdCount + 1);
 			}
 			// ResultSetをクローズを閉じる
-			if(rs != null){
+			if (rs != null) {
 				rs.close();
 			}
 

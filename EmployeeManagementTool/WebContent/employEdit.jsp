@@ -119,8 +119,9 @@
 		性別：<input type="radio" name="gender" value="男" <%= empGenderMalemsg %>>男性
 			  <input type="radio" name="gender" value="女" <%= empGenderFemalemsg %>>女性
 	</p>
+
 	<p>
-	写真：<img alt="" src="./PhotoViewServle?count=<%=count %>">
+	写真：<img style="width: 100px; height: 100px" src="/EmployeeManagementTool/PhotoViewServlet?count=<%=count %>">
 	<input type="file" name="img">
 	</p>
 	<p>
