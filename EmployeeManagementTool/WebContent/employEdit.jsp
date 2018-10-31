@@ -51,19 +51,28 @@
 	if(!(count.equals("0"))){
 	  EmployeeDAO dao = new EmployeeDAO();
 	  Employee emp = dao.findById(Integer.parseInt(count));
+
 	  // 各項目を代入
 	  empIdmsg = "value="+emp.getEmpId();
+
 	  // 名前は姓と名を分割し代入
 	  String[] name = emp.getEmpName().split("　");
 	  empFamillyNamemsg = "value="+name[0];
 	  empFirstNamemsg = "value="+name[1];
+
 	  //年齢
 	  empAgemsg = "value="+emp.getEmpAge();
+
 	  // 性別の自動チェック(nullならチェックされない)
 	  if(emp.getEmpGender().equals("男")){
 		  empGenderMalemsg = "checked = checked";
 	  }else if(emp.getEmpGender().equals("女")){
 		  empGenderFemalemsg = "checked= checked";
+	  }
+
+	  // 写真IDが格納されている場合、デフォルト値を設定
+	  if(emp.getPhotoId() !=null || !(emp.getPhotoId().equals(""))){
+		  photoIdmsg = "required";
 	  }
 	  //郵便番号は「-」で分割して代入
 	  String[] zip = emp.getZip().split("-");
@@ -73,14 +82,17 @@
 	  if(emp.getPref() != null){
 	  	prefmsg = emp.getPref();
 	  }
+
 	  //市区町名(nullなら半透明メッセージ)
 	  if(emp.getCity() != null){
 	  	citymsg = "value="+emp.getCity();
 	  }
+
 	  //部署IDも中身取り出して代入しておく(nullチェック)
 	  if(emp.getDptId() != null){
 	  	dptIdmsg = emp.getDptId();
 	  }
+
 	  //入社日は「-」分割して格納(nullチェック)
 	  if(emp.getEntryDate() != null){
 	  	String[] entry = emp.getEntryDate().split("-");
@@ -88,6 +100,7 @@
 	  	entryMonthmsg = "value="+entry[1];
 	  	entryDaymsg = "value="+entry[2];
 	  }
+
 	  // 退職日は「-」分割して格納(nullチェック)
 	  if(!(emp.getResignDate().equals(""))){
 		String[] resign = emp.getResignDate().split("-");
@@ -106,23 +119,23 @@
 
 	<input type="hidden" name="id" value="<%=count %>">
 	<p>
-		社員ID：<input type="text" name="empId" size="15" <%= empIdmsg %>>
+		社員ID：<input pattern=".{2,20}" title="2文字以上20文字以内で入力してください" name="empId" size="15" required <%= empIdmsg %>>
 	</p>
 	<p>
-		社員名：<input type="text" placeholder="姓" name="empFamillyName" size="10" <%= empFamillyNamemsg %>>
-		 <input type="text" placeholder="名" name="empFirstName" size="10" <%= empFirstNamemsg %>>
+		社員名：<input pattern=".{0,15}" title="15文字以内で入力してください"  name="empFamillyName" size="10" <%= empFamillyNamemsg %> required>
+		 <input pattern=".{0,15}" title="15文字以内で入力してください" name="empFirstName" size="10" <%= empFirstNamemsg %> required>
 	</p>
 	<p>
-		年齢：<input pattern="\d{2}" title="2桁の数字で入力してください" name="empAge" size="3" max="300" <%=empAgemsg %>>
+		年齢：<input type="number" pattern="\d{2}" title="2桁の数字で入力してください" name="empAge" size="3" min="18" max="70" <%=empAgemsg %>>
 	</p>
 	<p>
-		性別：<input type="radio" name="gender" value="男" <%= empGenderMalemsg %>>男性
+		性別：<input type="radio" name="gender" value="男" required <%= empGenderMalemsg %>>男性
 			  <input type="radio" name="gender" value="女" <%= empGenderFemalemsg %>>女性
 	</p>
 
 	<p>
-	写真：<img style="width: 100px; height: 100px" src="/EmployeeManagementTool/PhotoViewServlet?count=<%=count %>">
-	<input type="file" name="img">
+	写真：<img src="/EmployeeManagementTool/PhotoViewServlet?count=<%=count %>">
+	<input type="file" name="img" <%=photoIdmsg %>>
 	</p>
 	<p>
 		郵便番号：<input pattern="\d{3}" title="3桁の数字で入力してください" size="3" name="firstZip" <%=zipFirstmsg %>> -
@@ -144,11 +157,11 @@
 		</select>
 	</p>
 	<p>
-		■市区町名以下：<input type="text" name="city" size="45" <%=citymsg %>>
+		■市区町名以下：<input pattern=".{0,40}" title="40文字以内で入力してください" name="city" size="45" <%=citymsg %>>
 	</p>
 	<p>
 
-		所属部署：<select name="dptId">
+		所属部署：<select name="dptId" required>
 			<option value="">未指定</option>
 		<% for(Department department: Departments){ %>
 
@@ -161,15 +174,15 @@
 	</p>
 	<p>
 		入社日：
-		<input pattern="\d{4}" title="4桁の半角数字で入力してください" name="entryYear" size="4" min="1900" max="2100"<%=entryYearmsg %>>年
-		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="entryMonth" size="2" min="01" max="12"<%=entryMonthmsg %>>月
-		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="entryDay" size="2" min="01" max="31"<%=entryDaymsg %>>日
+		<input type="number" pattern="\d{4}" title="4桁の半角数字で入力してください" name="entryYear" size="4" min="1900" max="2100"<%=entryYearmsg %>>年
+		<input type="number" pattern="\d{2,2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="entryMonth" size="2" min="1" max="12"<%=entryMonthmsg %>>月
+		<input type="number" pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="entryDay" size="2" min="1" max="31"<%=entryDaymsg %>>日
 	</p>
 	<p>
 		退社日：
-		<input pattern="\d{4}" title="4桁の半角数字で入力してください" name="resignYear" size="4" min="1900" max="2100"<%=resignYearmsg %>>年
-		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="resignMonth" size="2" min="01" max="12"<%=resignMonthmsg %>>月
-		<input pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="resignDay" size="2" min="01" max="31"<%=resignDaymsg %>>日
+		<input type="number" pattern="\d{4}" title="4桁の半角数字で入力してください" name="resignYear" size="4" min="1900" max="2100"<%=resignYearmsg %>>年
+		<input type="number" pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="resignMonth" size="2" min="01" max="12"<%=resignMonthmsg %>>月
+		<input type="number" pattern="\d{2}" title="2桁の半角数字で入力してください(1桁の時は前に0を入力)" name="resignDay" size="2" min="01" max="31"<%=resignDaymsg %>>日
 	</p>
 	<br>
 	<input type="submit" value=" 登録 " />

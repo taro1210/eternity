@@ -26,13 +26,15 @@
 		</select>
 	</p>
 	<p>
-		社員ＩＤ：<input type="text" placeholder="IDを入力して下さい" name="empId">
+		社員ＩＤ：<input pattern=".{0,20}" title="20文字以内で入力してください" placeholder="IDを入力して下さい" name="empId">
 	</p>
 	<p>
-		社員名：<input type="text" placeholder="名前を入力して下さい" name="empName">
+		社員名：<input pattern=".{0,30}" title="30文字以内で入力してください" placeholder="名前を入力して下さい" name="empName">
 	</p>
 	<br>
 	<input type="submit" value=" 検索 ">
 </form>
+<br>
+<input type="button" onclick="location.href='/EmployeeManagementTool/employManager.jsp'"value=" 一覧に戻る ">
 </body>
 </html>
